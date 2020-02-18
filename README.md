@@ -1,5 +1,6 @@
 # GitHubRepoListExercise
-##To run the application first install nodejs and yarn.
+
+## To run the application first install nodejs and yarn.
 them run:
 ```bash
 $ yarn install
