@@ -59,7 +59,10 @@ export default class Repository extends Component {
 
   async changePage(direction) {
     const { issuesPage, repository } = this.state;
-    this.setState({ issuesPage: issuesPage + direction, loadingIssues: true });
+    await this.setState({
+      issuesPage: issuesPage + direction,
+      loadingIssues: true
+    });
     const issues = await (await this.loadIssues(repository.full_name)).data;
     this.setState({ issues, loadingIssues: false });
   }
