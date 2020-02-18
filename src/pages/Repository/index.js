@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
 import api from '../../services/api';
-import { Loading, Owner, IssueList, Pagination, Select } from './style';
+import {
+  Loading,
+  Owner,
+  IssueList,
+  Pagination,
+  Filter,
+  FilterButton
+} from './style';
 import Container from '../../components/Container';
 
 export default class Repository extends Component {
@@ -42,8 +49,10 @@ export default class Repository extends Component {
   }
 
   filterState = async e => {
-    const { repository } = this.state;
-    await this.setState({ issuesState: e.target.value, loadingIssues: true });
+    await this.setState({ issuesState: e.target.value });
+    const { issuesState, repository } = this.state;
+    this.setState({ loadingIssues: true });
+    console.log(issuesState);
     const { data } = await this.loadIssues(repository.full_name);
     this.setState({ issues: data, loadingIssues: false });
   };
@@ -70,8 +79,8 @@ export default class Repository extends Component {
       repository,
       issues,
       issuesPage,
-      issuesState,
       loadingIssues,
+      issuesState,
       loading
     } = this.state;
 
@@ -88,11 +97,29 @@ export default class Repository extends Component {
           <p>{repository.description}</p>
         </Owner>
         <IssueList loadingIssues={loadingIssues ? 0 : 1}>
-          <Select onChange={this.filterState}>
-            <option value="all">all</option>
-            <option value="closed">closed</option>
-            <option value="open">open</option>
-          </Select>
+          <Filter>
+            <FilterButton
+              Active={issuesState === 'all' ? 1 : 0}
+              onClick={this.filterState}
+              value="all"
+            >
+              Todos
+            </FilterButton>
+            <FilterButton
+              Active={issuesState === 'open' ? 1 : 0}
+              onClick={this.filterState}
+              value="open"
+            >
+              Abertos
+            </FilterButton>
+            <FilterButton
+              Active={issuesState === 'closed' ? 1 : 0}
+              onClick={this.filterState}
+              value="closed"
+            >
+              Fechados
+            </FilterButton>
+          </Filter>
           {issues.map(issue => (
             <li key={String(issue.id)}>
               <img src={issue.user.avatar_url} alt={issue.user.login} />

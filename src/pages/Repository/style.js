@@ -98,6 +98,29 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const Filter = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 30px 0px;
+`;
+export const FilterButton = styled.button`
+  padding: 10px 5px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  font-size: 14px;
+  border-radius: 10px;
+  &:hover {
+  }
+  ${props =>
+    props.Active &&
+    css`
+      background-color: #9159c1;
+      color: #eee;
+    `}
+`;
+
 export const Pagination = styled.div`
   display: flex;
   flex-direction: row;
